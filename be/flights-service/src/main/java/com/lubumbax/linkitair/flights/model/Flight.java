@@ -31,7 +31,7 @@ public class Flight {
     private BigDecimal price;
 
     @Data
-    @ApiModel(value = "Airport data of a given Flight")
+    @ApiModel(description = "Airport data of a given Flight")
     public static class AirportData {
         @ApiModelProperty(value = "Airport code")
         private String code;

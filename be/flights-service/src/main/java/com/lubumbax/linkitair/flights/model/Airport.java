@@ -5,12 +5,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
 @Data
 @Builder
 @ApiModel
+@Document(collection = "airports")
 public class Airport {
     @ApiModelProperty(value = "Code of the airport")
     @Id
