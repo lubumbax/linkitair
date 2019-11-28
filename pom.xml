@@ -13,7 +13,7 @@
 
     <groupId>com.lubumbax.linkitair</groupId>
     <artifactId>linkitair-backend</artifactId>
-    <name>linkitair-backend</name>
+    <name>linkitair</name>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>LinkitAir Backend</description>
