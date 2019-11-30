@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <app-airports [code]="fromAirport" (changed)="onFrom($event)">From</app-airports>
+    </div>
+    <div class="col-3">
+      <app-airports [code]="toAirport" (changed)="onTo($event)">To</app-airports>
+    </div>
+    <div class="btn-group">
+      <button class='btn btn-primary' (click)="onSearch()">Search</button>
+    </div>
+  </div>
+</div>
+
+<!-- Results -->
+
+<div class="container">
+  <br />
+  <h2 class="text-center">Available flights</h2>
+  <table class="table">
+    <thead>
+      <th>Number</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Time</th>
+      <th>Price</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flight of flights">
+        <td>{{flight.number}}</td>
+        <td>{{flight.from.description}}</td>
+        <td>{{flight.to.description}}</td>
+        <td>{{flight.time}}</td>
+        <td>{{flight.price}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

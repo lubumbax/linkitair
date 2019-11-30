@@ -1,0 +1,15 @@
+<div class="input-group-prepend">
+  <span class="input-group-text" id="airportLabel"><ng-content></ng-content></span>
+  <input [formControl]="airportDescription"
+         (focus)="onInputFocus()" (blur)="onInputBlur()"
+         type="text" class="form-control" placeholder="search..." aria-describedby="airportLabel">
+</div>
+<div>
+  <span *ngIf="airportsLoading">Loading</span>
+</div>
+<div *ngIf="airportDescription.value" class="searchList">
+  <a class="dropdown-item"
+     *ngFor="let airport of airports | async">{{airport.description}}
+  </a>
+</div>
+<!--      [routerLink]="['/from',airport.code]"-->
