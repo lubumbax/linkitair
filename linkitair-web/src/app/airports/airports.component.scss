@@ -1,0 +1,9 @@
+.search-list {
+  position: absolute;
+  z-index: 1;
+  border: solid 1px lightgrey;
+  background: whitesmoke;
+  a:hover {
+    background: papayawhip;
+  }
+}

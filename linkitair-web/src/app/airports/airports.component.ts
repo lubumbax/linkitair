@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 import {AirportData} from "../model/airport-data";
 import {FlightsService} from "../services/flights.service";
@@ -8,36 +8,49 @@ import {FlightsService} from "../services/flights.service";
 @Component({
   selector: 'app-airports',
   templateUrl: './airports.component.html',
-  styleUrls: ['./airports.component.css']
+  styleUrls: ['./airports.component.scss']
 })
 export class AirportsComponent implements OnInit {
-  @Input() code;
   @Output() changed = new EventEmitter();
-  airportDescription = new FormControl();
-  airports: Observable<AirportData[] | Observable<AirportData[]>>;
+
+  airports$: Observable<AirportData[] | Observable<AirportData[]>>;
+  inputControl = new FormControl();
   airportsLoading = false;
 
   constructor(private flightsService: FlightsService) { }
 
+  searchEnabled: boolean = true;
+
   ngOnInit() {
-    this.airports = this.airportDescription.valueChanges.pipe(
-      debounceTime( 400 ),
+    this.airports$ = this.inputControl.valueChanges.pipe(
+      debounceTime(400),
       distinctUntilChanged(),
-      tap(() => this.airportsLoading = true ),
-      switchMap( m => this.flightsService.findAirport( m ) ),
-      tap(() => this.airportsLoading = false )
+      tap(( ) => this.airportsLoading = true),
+      switchMap( match => {
+        if (this.searchEnabled) {
+          return this.flightsService.findAirport(match)
+        } else {
+          return of([])
+        }
+      }),
+      tap(() => this.airportsLoading = false)
     );
   }
 
   onInputFocus() {
-    // window.alert('Component gets the focus');
+    this.searchEnabled = true;
+    //let val = this.inputControl.value;
+    //this.inputControl.setValue('<mark>' + val + '</mark>');
   }
 
   // (focusout)="onFocusOut()
   onInputBlur() {
     this.airportsLoading = false;
-    this.changed.emit("LK0002");
   }
 
-  //TODO: when an airport gets selected, notify the id
+  onSelect(airport: AirportData) {
+    this.searchEnabled = false;
+    this.inputControl.setValue(airport.description);
+    this.changed.emit(airport.code);
+  }
 }
