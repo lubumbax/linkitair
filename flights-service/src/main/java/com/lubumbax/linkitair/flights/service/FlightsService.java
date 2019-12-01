@@ -3,6 +3,7 @@ package com.lubumbax.linkitair.flights.service;
 import com.lubumbax.linkitair.flights.model.Flight;
 import com.lubumbax.linkitair.flights.repository.FlightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class FlightsService {
         return repository.findByToDescriptionLike(match.toLowerCase());
     }
 
+    public List<Flight> getFlightsFromTo(String from, String to) {
+        Sort timeAsc = Sort.by(Sort.Direction.ASC, "time");
+        return repository.findByFromCodeAndToCodeOrOrderByTimeAsc(from, to, timeAsc);
+    }
+
     public List<Flight.AirportData> getAllAirports() {
         List<Flight> flights = repository.findAll();
 
@@ -37,7 +43,7 @@ public class FlightsService {
                 .collect(Collectors.toList());
     }
 
-    public List<Flight.AirportData> getAirportsWhereFromDescriptionMatches(String match) {
+    public List<Flight.AirportData> getAirportsFromWhereFromDescriptionMatches(String match) {
         return repository.findByFromDescriptionLike(match.toLowerCase())
                 .stream()
                 .map(Flight::getFrom)
@@ -45,8 +51,16 @@ public class FlightsService {
                 .collect(Collectors.toList());
     }
 
-    public List<Flight.AirportData> getAirportsWhereToDescriptionMatches(String match) {
+    public List<Flight.AirportData> getAirportsToWhereToDescriptionMatches(String match) {
         return repository.findByToDescriptionLike(match.toLowerCase())
+                .stream()
+                .map(Flight::getTo)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<Flight.AirportData> getAirportsToWhereFromAndToDescriptionMatches(String fromMatch, String toMatch) {
+        return repository.findByFromToDescriptionLike(fromMatch.toLowerCase(), toMatch.toLowerCase())
                 .stream()
                 .map(Flight::getTo)
                 .distinct()
