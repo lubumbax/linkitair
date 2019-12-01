@@ -1,13 +1,18 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-3">
-      <app-airports [code]="fromAirport" (changed)="onFrom($event)">From</app-airports>
-    </div>
-    <div class="col-3">
-      <app-airports [code]="toAirport" (changed)="onTo($event)">To</app-airports>
-    </div>
-    <div class="btn-group">
-      <button class='btn btn-primary' (click)="onSearch()">Search</button>
+<div class="container">
+  <br />
+  <h3>Select two airports or cities</h3>
+  <br />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <from-airports (changed)="setFrom($event)">From</from-airports>
+      </div>
+      <div class="col-3">
+        <to-airports (changed)="setTo($event)" [filterFrom]="fromAirport">To</to-airports>
+      </div>
+      <div class="btn-group">
+        <button class='btn btn-primary' (click)="onSearch()">Search</button>
+      </div>
     </div>
   </div>
 </div>
@@ -16,7 +21,7 @@
 
 <div class="container">
   <br />
-  <h2 class="text-center">Available flights</h2>
+  <h3>Available flights</h3>
   <table class="table">
     <thead>
       <th>Number</th>
@@ -26,7 +31,7 @@
       <th>Price</th>
     </thead>
     <tbody>
-      <tr *ngFor="let flight of flights">
+      <tr *ngFor="let flight of flights$ | async">
         <td>{{flight.number}}</td>
         <td>{{flight.from.description}}</td>
         <td>{{flight.to.description}}</td>

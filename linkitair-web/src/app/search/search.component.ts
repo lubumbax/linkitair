@@ -1,64 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import {Flight} from "../model/flight";
+import {AirportData} from "../model/airport-data";
+import {Observable} from "rxjs";
+import {FlightsService} from "../services/flights.service";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  fromAirport: string;  // TODO: type AirportData
-  toAirport: string;    // TODO: type AirportData
+  fromAirport: AirportData;
+  toAirport: AirportData;
 
-  flights: Flight[] = [];
+  flights$: Observable<Flight[] | Observable<Flight[]>>;
 
-  constructor() { }
+  constructor(private flightsService: FlightsService) { }
 
-  ngOnInit() {
-    this.flights = this.flightResults;
-  }
+  ngOnInit() {}
 
-  onFrom(from: string) {
-    console.log("Airport selected: " + from);
+  setFrom(from: AirportData) {
+    console.log("[SearchComponent]: Airport FROM selected: " + from + ", previous value: " + this.fromAirport);
     this.fromAirport = from;
   }
 
-  onTo(to: string) {
-    console.log("Airport selected: " + to);
+  setTo(to: AirportData) {
+    console.log("[SearchComponent]: Airport TO selected: " + to);
     this.toAirport = to;
   }
 
   onSearch() {
-    console.log("Searching from [ " + this.fromAirport + " ] to [ " + this.toAirport + " ]");
+    //console.log("Searching from [ " + this.fromAirport.code + " ] to [ " + this.toAirport.code + " ]");
+    console.log("[SearchComponent]: onSearch [ " + (this.fromAirport? this.fromAirport.code : "") + " ] to [ " + (this.toAirport? this.toAirport.code : "") + " ]");
+    if (this.fromAirport) {
+      if (this.toAirport) {
+        console.log("[SearchComponent]: - searching from [ " + this.fromAirport.code + " ] to [ " + this.toAirport.code + " ]");
+        this.flights$ = this.flightsService.findFlights(this.fromAirport.code, this.toAirport.code);
+      }
+      else {
+        console.log("[SearchComponent]: - searching from [ " + this.fromAirport.code + " ]");
+        this.flights$ = this.flightsService.findFlights(this.fromAirport.code);
+      }
+    }
+    //this.flights$ = this.flightsService.findFlights(this.fromAirport.code, this.toAirport.code);
   }
-
-  flightResults: Flight[] = [
-    {
-      number: 'LK0001',
-      from: {
-        code: 'AMS',
-        description: 'Amsterdam'
-      },
-      to: {
-        code: 'LON',
-        description: 'London'
-      },
-      time: "12:05",
-      price: 123.5
-    },
-
-    {
-      number: 'LK0002',
-      from: {
-        code: 'AMS',
-        description: 'Amsterdam'
-      },
-      to: {
-        code: 'FRA',
-        description: 'Frankfurt'
-      },
-      time: "09:30",
-      price: 99.0
-    },
-  ];
 }
