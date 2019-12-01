@@ -1,12 +1,12 @@
 # LinkitAir 
 
-LinkitAir is a demo PoC of an online flights search application.
+LinkitAir is a demo PoC of an online flights search application.  
 It consists of an API (Spring Boot) and a UI (Angular). 
 
 ## Overview
 
 ### The API
-The API is a Spring Boot application that serves flight information through a Spring MVC REST Controller.
+The API is a Spring Boot application that serves flight information through a Spring MVC REST Controller.    
 The data is retrieved from MongoDB. This allows us to add data any time during the execution of the demo.
 
 Here are the entities involved:
@@ -14,14 +14,14 @@ Here are the entities involved:
   - Flight: identified uniquely by a flight number (eg "`LK0003`") and contains a `from` and `to` 
   - Flight.AirportData: contain the `code` of an airport and a `description` attribute made with the `code`, `name` and `city` of the actual Airport.  
     
-The `Flight.AirportData.description` attribute is what the API will use in order to search flights by a given airport token. 
+The `Flight.AirportData.description` attribute is what the API will use in order to search flights by a given airport token.   
 The token could be just part of the name of a city, the name of the airport itself of just the airport code.
 
 ### The UI
-The UI is a basic Angular application that pulls flights information from the Spring Boot application. 
-It consists of a flights search page in which we can search available flights for a given "From" and "To" airports.
-The page displays two flight search boxes that will dynamically be populated with the airports matching the characters entered.
-Once an airport is selected, the search box "locks-in" with a light blue colour indicating that it is "ready" to search.
+The UI is a basic Angular application that pulls flights information from the Spring Boot application.  
+It consists of a flights search page in which we can search available flights for a given "From" and "To" airports.  
+The page displays two flight search boxes that will dynamically be populated with the airports matching the characters entered.  
+Once an airport is selected, the search box "locks-in" with a light blue colour indicating that it is "ready" to search.  
 
 ## How to run it
 
@@ -111,8 +111,8 @@ ng serve
 ```
 
 ### Test it
-Browse to http://localhost:4200
-Try entering just "am" in the "From" search box. Both "AMS" and "FRA" will be found. Select "AMS".
-Try entering just "fra" in the "To" search box. "FRA" will be found. Select "FRA".
-Search the available flights.
+Browse to http://localhost:4200  
+Try entering just "am" in the "From" search box. Both "AMS" and "FRA" will be found. Select "AMS".  
+Try entering just "fra" in the "To" search box. "FRA" will be found. Select "FRA".  
+Search the available flights.  
 
