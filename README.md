@@ -25,7 +25,10 @@ Once an airport is selected, the search box "locks-in" with a light blue colour 
 
 ## How to run it
 
-First make sure that you have MongoDB installed and running. 
+### Requirements
+
+  - MongoDB  
+  - Java 11
 
 ### Install MongoDB (Mac OS X)
 
@@ -107,6 +110,7 @@ db.flights.insert({
 ```shell script
 git clone <url of this repository>
 cd linkitair/inkitair-web
+npm install
 ng serve
 ```
 
