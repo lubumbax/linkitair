@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -24,6 +25,9 @@ public class FlightsServiceApplication  implements CommandLineRunner {
     @Autowired
     private FlightsRepository flightsRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     public static void main(String[] args) {
         SpringApplication.run(FlightsServiceApplication.class, args);
     }
@@ -34,36 +38,40 @@ public class FlightsServiceApplication  implements CommandLineRunner {
         Airport LHR = Airport.builder().code("LHR").name("Heathrow").city("London").build();
         Airport FRA = Airport.builder().code("FRA").name("Frankfurt am Main").city("Frankfurt").build();
 
-        airportsRepository.deleteAll();
-        airportsRepository.saveAll(Arrays.asList(AMS, LHR, FRA));
+        if (! mongoTemplate.collectionExists("airports")) {
+            airportsRepository.deleteAll();
+            airportsRepository.saveAll(Arrays.asList(AMS, LHR, FRA));
+        }
 
-        flightsRepository.deleteAll();
-        flightsRepository.saveAll(Arrays.asList(
-                Flight.builder().number("LK001")
-                        .time("09:55")
-                        .from(buildAirportData(AMS))
-                        .to(buildAirportData(LHR))
-                        .price(BigDecimal.valueOf(123.0d))
-                        .build(),
-                Flight.builder().number("LK002")
-                        .time("13:15")
-                        .from(buildAirportData(LHR))
-                        .to(buildAirportData(AMS))
-                        .price(BigDecimal.valueOf(321.0d))
-                        .build(),
-                Flight.builder().number("LK003")
-                        .time("10:45")
-                        .from(buildAirportData(AMS))
-                        .to(buildAirportData(FRA))
-                        .price(BigDecimal.valueOf(456.0d))
-                        .build(),
-                Flight.builder().number("LK004")
-                        .time("14:35")
-                        .from(buildAirportData(FRA))
-                        .to(buildAirportData(LHR))
-                        .price(BigDecimal.valueOf(654))
-                        .build()
-        ));
+        if (! mongoTemplate.collectionExists("flights")) {
+            flightsRepository.deleteAll();
+            flightsRepository.saveAll(Arrays.asList(
+                    Flight.builder().number("LK001")
+                            .time("09:55")
+                            .from(buildAirportData(AMS))
+                            .to(buildAirportData(LHR))
+                            .price(BigDecimal.valueOf(123.0d))
+                            .build(),
+                    Flight.builder().number("LK002")
+                            .time("13:15")
+                            .from(buildAirportData(LHR))
+                            .to(buildAirportData(AMS))
+                            .price(BigDecimal.valueOf(321.0d))
+                            .build(),
+                    Flight.builder().number("LK003")
+                            .time("10:45")
+                            .from(buildAirportData(AMS))
+                            .to(buildAirportData(FRA))
+                            .price(BigDecimal.valueOf(456.0d))
+                            .build(),
+                    Flight.builder().number("LK004")
+                            .time("14:35")
+                            .from(buildAirportData(FRA))
+                            .to(buildAirportData(LHR))
+                            .price(BigDecimal.valueOf(654))
+                            .build()
+            ));
+        }
     }
 
     private Flight.AirportData buildAirportData(Airport airport) {

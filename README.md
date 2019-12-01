@@ -82,11 +82,18 @@ To return a list of flights from Amsterdam/Schiphol to Frankfurt/Frankfurt am Ma
 curl -v -G "http://localhost:8080/flights/from/AMS/to/FRA"
 ```
 
+### API Documentation
+
+Documentation about the endpoints and models is exposed by Swagger at http://localhost:8080/swagger-ui.html  
+
+### Add or Edit Data
+
 Try to add a couple more flights:
 ```shell script
-mongo
-use linkitair;
-db.flights.insert({ 
+$ mongo
+
+> use linkitair;
+> db.flights.insert({ 
 "_id" : "XX666", 
 "from" : { "code" : "AMS", "description" : "AMS - Schiphol (Amsterdam)" }, 
 "to" : { "code" : "MAD", "description" : "MAD - Bajaras (Madrid)" }, 
@@ -95,8 +102,7 @@ db.flights.insert({
 "_class" : "com.lubumbax.linkitair.flights.model.Flight"
 });
 
-
-db.flights.insert({ 
+> db.flights.insert({ 
 "_id" : "XX000", 
 "from" : { "code" : "MAD", "description" : "MAD - Bajaras (Madrid)" }, 
 "to" : { "code" : "AMS", "description" : "AMS - Schiphol (Amsterdam)" }, 
