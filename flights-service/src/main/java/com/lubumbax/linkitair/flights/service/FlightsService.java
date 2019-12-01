@@ -15,8 +15,9 @@ public class FlightsService {
 
     private FlightsRepository repository;
 
-    public List<Flight> getAllFlights() {
-        return repository.findAll();
+    public List<Flight> getFlightsFromTo(String from, String to) {
+        Sort timeAsc = Sort.by(Sort.Direction.ASC, "time");
+        return repository.findByFromCodeAndToCodeOrOrderByTimeAsc(from, to, timeAsc);
     }
 
     public List<Flight> getFlightsWhereFromDescriptionMatches(String match) {
@@ -25,11 +26,6 @@ public class FlightsService {
 
     public List<Flight> getFlightsWhereToDescriptionMatches(String match) {
         return repository.findByToDescriptionLike(match.toLowerCase());
-    }
-
-    public List<Flight> getFlightsFromTo(String from, String to) {
-        Sort timeAsc = Sort.by(Sort.Direction.ASC, "time");
-        return repository.findByFromCodeAndToCodeOrOrderByTimeAsc(from, to, timeAsc);
     }
 
     public List<Flight.AirportData> getAllAirports() {
@@ -59,8 +55,8 @@ public class FlightsService {
                 .collect(Collectors.toList());
     }
 
-    public List<Flight.AirportData> getAirportsToWhereFromAndToDescriptionMatches(String fromMatch, String toMatch) {
-        return repository.findByFromToDescriptionLike(fromMatch.toLowerCase(), toMatch.toLowerCase())
+    public List<Flight.AirportData> getAirportsToWhereFromAndToDescriptionMatches(String from, String toMatch) {
+        return repository.findByFromToDescriptionLike(from, toMatch.toLowerCase())
                 .stream()
                 .map(Flight::getTo)
                 .distinct()

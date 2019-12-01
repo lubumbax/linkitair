@@ -17,6 +17,6 @@ public interface FlightsRepository extends MongoRepository<Flight, String> {
     @Query("{'to.description': {$regex: ?0, $options: 'i'}}")
     List<Flight> findByToDescriptionLike(String match);
 
-    @Query("{'from.description': {$regex: ?0, $options: 'i'}, 'to.description': {$regex: ?1, $options: 'i'}}")
-    List<Flight> findByFromToDescriptionLike(String fromMatch, String toMatch);
+    @Query("{'from.code': ?0, 'to.description': {$regex: ?1, $options: 'i'}}")
+    List<Flight> findByFromToDescriptionLike(String from, String toMatch);
 }
