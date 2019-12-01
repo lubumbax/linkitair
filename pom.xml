@@ -16,7 +16,7 @@
     <name>linkitair</name>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <description>LinkitAir Backend</description>
+    <description>LinkitAir</description>
 
     <modules>
         <module>flights-service</module>
@@ -44,121 +44,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-security</artifactId>-->
-<!--                <version>1.0.7.RELEASE</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.security</groupId>-->
-<!--                <artifactId>spring-security-jwt</artifactId>-->
-<!--                <version>1.0.10.RELEASE</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.security.oauth</groupId>-->
-<!--                <artifactId>spring-security-oauth2</artifactId>-->
-<!--                <version>2.3.6.RELEASE</version>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-
-<!--            <plugin>-->
-<!--                <artifactId>maven-clean-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <failOnError>false</failOnError>-->
-<!--                    <filesets>-->
-<!--                        <fileset>-->
-<!--                            <directory>linkitair-web/dist</directory>-->
-<!--                            <followSymlinks>false</followSymlinks>-->
-<!--                        </fileset>-->
-<!--                        <fileset>-->
-<!--                            <directory>linkitair-web/node_modules</directory>-->
-<!--                            <followSymlinks>false</followSymlinks>-->
-<!--                        </fileset>-->
-<!--                    </filesets>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>npm install</id>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <configuration>-->
-<!--                            <executable>npm</executable>-->
-<!--                            <arguments>-->
-<!--                                <argument>install</argument>-->
-<!--                            </arguments>-->
-<!--                            <workingDirectory>linkitair-web</workingDirectory>-->
-<!--                            <target>-->
-<!--                                <echo message="Npm install" />-->
-<!--                            </target>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>angular-cli build en</id>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        <configuration>-->
-<!--                            <executable>npm</executable>-->
-<!--                            <arguments>-->
-<!--                                <argument>run</argument>-->
-<!--                                <argument>build</argument>-->
-<!--                            </arguments>-->
-<!--                            <workingDirectory>linkitair-web</workingDirectory>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <useSystemClassLoader>false</useSystemClassLoader>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-
-
-        </plugins>
-<!--        <pluginManagement>-->
-<!--            <plugins>-->
-<!--                <plugin>-->
-<!--                    <groupId>org.eclipse.m2e</groupId>-->
-<!--                    <artifactId>lifecycle-mapping</artifactId>-->
-<!--                    <version>1.0.0</version>-->
-<!--                    <configuration>-->
-<!--                        <lifecycleMappingMetadata>-->
-<!--                            <pluginExecutions>-->
-<!--                                <pluginExecution>-->
-<!--                                    <pluginExecutionFilter>-->
-<!--                                        <groupId>org.codehaus.mojo</groupId>-->
-<!--                                        <artifactId>exec-maven-plugin</artifactId>-->
-<!--                                        <versionRange>[1.4.0,)</versionRange>-->
-<!--                                        <goals>-->
-<!--                                            <goal>exec</goal>-->
-<!--                                        </goals>-->
-<!--                                    </pluginExecutionFilter>-->
-<!--                                    <action>-->
-<!--                                        <ignore />-->
-<!--                                    </action>-->
-<!--                                </pluginExecution>-->
-<!--                            </pluginExecutions>-->
-<!--                        </lifecycleMappingMetadata>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
-<!--            </plugins>-->
-<!--        </pluginManagement>-->
-    </build>
 
     <repositories>
         <repository>
