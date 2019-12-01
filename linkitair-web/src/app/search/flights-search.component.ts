@@ -5,11 +5,11 @@ import {Observable} from "rxjs";
 import {FlightsService} from "../services/flights.service";
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: 'flights-search',
+  templateUrl: './flights-search.component.html',
+  styleUrls: ['./flights-search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class FlightsSearchComponent implements OnInit {
   fromAirport: AirportData;
   toAirport: AirportData;
 
@@ -30,7 +30,6 @@ export class SearchComponent implements OnInit {
   }
 
   onSearch() {
-    //console.log("Searching from [ " + this.fromAirport.code + " ] to [ " + this.toAirport.code + " ]");
     console.log("[SearchComponent]: onSearch [ " + (this.fromAirport? this.fromAirport.code : "") + " ] to [ " + (this.toAirport? this.toAirport.code : "") + " ]");
     if (this.fromAirport) {
       if (this.toAirport) {
@@ -42,6 +41,5 @@ export class SearchComponent implements OnInit {
         this.flights$ = this.flightsService.findFlights(this.fromAirport.code);
       }
     }
-    //this.flights$ = this.flightsService.findFlights(this.fromAirport.code, this.toAirport.code);
   }
 }

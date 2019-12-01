@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {SearchComponent} from "./search/search.component";
+import {FlightsSearchComponent} from "./search/flights-search.component";
 
 
 const routes: Routes = [
-  {path: '**', component: SearchComponent}
+  {path: '**', component: FlightsSearchComponent}
 ];
 
 @NgModule({

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AbstractAirportsComponent, FromAirportsComponent, ToAirportsComponent} from './airports/airports.component';
-import { SearchComponent } from './search/search.component';
+import { FlightsSearchComponent } from './search/flights-search.component';
 import {FlightsService} from "./services/flights.service";
 
 @NgModule({
@@ -15,7 +15,7 @@ import {FlightsService} from "./services/flights.service";
     AbstractAirportsComponent,
     FromAirportsComponent,
     ToAirportsComponent,
-    SearchComponent
+    FlightsSearchComponent
   ],
   imports: [
     BrowserModule,
