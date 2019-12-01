@@ -4,14 +4,18 @@
   </span>
   <input type="text" class="form-control" placeholder="search..." aria-describedby="airportLabel"
          [formControl]="inputControl"
-         (focus)="onInputFocus()" (blur)="onInputBlur()">
+         [style.background-color]="airportSelected? 'lightcyan' : 'white'"
+         (focus)="onInputFocus()"
+         (blur)="onInputBlur()">
 </div>
 <div>
   <!-- replace with a spinning wheel at the right of the component -->
-  <span *ngIf="airportsLoading">Loading</span>
+<!--  <span *ngIf="airportsLoading">Loading</span>-->
 </div>
 <div *ngIf="inputControl.value" class="search-list">
-  <a class="dropdown-item" *ngFor="let airport of airports$ | async"
-     (click)="onSelect(airport)">{{airport.description}}</a>
+  <a class="dropdown-item"
+     *ngFor="let airport of airports$ | async"
+     (click)="onSelect(airport)">
+    {{airport.description}}
+  </a>
 </div>
-<!--      [routerLink]="['/from',airport.code]"-->

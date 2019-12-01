@@ -5,14 +5,16 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AirportsComponent } from './airports/airports.component';
+import {AbstractAirportsComponent, FromAirportsComponent, ToAirportsComponent} from './airports/airports.component';
 import { SearchComponent } from './search/search.component';
 import {FlightsService} from "./services/flights.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AirportsComponent,
+    AbstractAirportsComponent,
+    FromAirportsComponent,
+    ToAirportsComponent,
     SearchComponent
   ],
   imports: [
