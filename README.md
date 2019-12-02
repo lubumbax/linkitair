@@ -1,7 +1,7 @@
 # LinkitAir 
 
 LinkitAir is a demo PoC of an online flights search application.  
-It consists of an API (Spring Boot) and a UI (Angular). 
+It consists on a REST API (Spring Boot) and a UI (Angular). 
 
 ### TL;DR
 
@@ -21,7 +21,7 @@ $ npm install
 $ ng serve
 ```
 
-  - Access LinkitAir at Browse to http://localhost:4200 and start searching flights.    
+  - Access LinkitAir at http://localhost:4200 and start searching flights.  
 
 ```shell script
 $ cd linkitair
