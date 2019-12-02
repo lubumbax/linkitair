@@ -10,7 +10,8 @@ $ mkdir -p ~/.mongodb/data
 $ docker run -d -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
 ```
 ```shell script
-$ git clone <url of this repository>
+$ git clone https://github.com/lubumbax/linkitair.git
+$ git checkout feature/ui-in-boot
 $ cd linkitair
 $ mvn clean install 
 $ cd /flights-service
@@ -104,7 +105,8 @@ apt install mongodb
 
 ## Serve LinkitAir
 ```shell script
-$ git clone <url of this repository>
+$ git clone https://github.com/lubumbax/linkitair.git
+$ git checkout feature/ui-in-boot
 $ cd linkitair
 $ mvn clean install 
 $ cd /flights-service
