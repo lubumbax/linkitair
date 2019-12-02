@@ -16,10 +16,10 @@ export class FlightsService {
   public findAirports(from: string, to: string = '*', min: number = 2) :Observable<AirportData[]> {
     let url;
     if (from && from.length >= min && to == '*') {
-      url = '/api/flights/airports/from/' + from;
+      url = '/flights/airports/from/' + from;
     }
     else if (from && from.length >= min && to.length >= min) {
-      url = '/api/flights/airports/from/' + from +  '/to/' + to;
+      url = '/flights/airports/from/' + from +  '/to/' + to;
     }
     else {
       return of([]);
@@ -36,10 +36,10 @@ export class FlightsService {
   public findFlights(from: string, to: string = undefined) :Observable<Flight[]> {
     let url; // = '/api/flights/from/' + from +  '/to/' + to;
     if (from && !to) {
-      url = '/api/flights/from/' + from;
+      url = '/flights/from/' + from;
     }
     else if (from && to) {
-      url = '/api/flights/from/' + from +  '/to/' + to;
+      url = '/flights/from/' + from +  '/to/' + to;
     }
     else {
       return of([]);
@@ -51,19 +51,5 @@ export class FlightsService {
         return Observable.throw(error);
       })
     );
-  }
-
-  public findAirportsOld(match: string, min: number = 3) :Observable<AirportData[]> {
-    if(!match || match.length < min) {
-      return of([]);
-    }
-    return this.http.get<AirportData[]>(
-      '/api/flights/airports?from=' + match,
-      this.reqOptionsArgs
-    )
-      .pipe(catchError(error => {
-        console.error( JSON.stringify( error ) );
-        return Observable.throw( error );
-      }));
   }
 }
