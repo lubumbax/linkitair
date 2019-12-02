@@ -1,5 +1,6 @@
 package com.lubumbax.linkitair.flights.service;
 
+import com.lubumbax.linkitair.flights.error.ParameterNotValidException;
 import com.lubumbax.linkitair.flights.model.Flight;
 import com.lubumbax.linkitair.flights.repository.FlightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,10 +51,23 @@ public class FlightsService {
      * @param from String representing the code of a departure airport (eg. "AMS")
      * @param to String representing the code of an arrival airport (eg. "FRA")
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'from' or 'to' contain one of /, \, (, ), { or }
      */
     public List<Flight> getFlightsFromTo(String from, String to) {
+        validateParameter("from", from);
+        validateParameter("to", to);
+
         Sort timeAsc = Sort.by(Sort.Direction.ASC, "time");
         return repository.findByFromCodeAndToCodeOrOrderByTimeAsc(from, to, timeAsc);
+    }
+
+    private static final Pattern BAD_FILTER_REGEX = Pattern.compile("[\\/\\\\(){}]");
+
+    public void validateParameter(String name, String value) throws ParameterNotValidException {
+        Matcher matcher = BAD_FILTER_REGEX.matcher(value);
+        if (matcher.find()){
+            throw new ParameterNotValidException(name, value);
+        }
     }
 
     /**
@@ -67,8 +83,10 @@ public class FlightsService {
      *
      * @param match a token to be checked against code, name or city of existing departure airports.
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'match' contains one of /, \, (, ), { or }
      */
     public List<Flight> getFlightsWhereFromDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByFromDescriptionLike(match.toLowerCase());
     }
 
@@ -85,8 +103,10 @@ public class FlightsService {
      *
      * @param match a token to be checked against code, name or city of existing arrival airports.
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'match' contains one of /, \, (, ), { or }
      */
     public List<Flight> getFlightsWhereToDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByToDescriptionLike(match.toLowerCase());
     }
 
@@ -116,8 +136,10 @@ public class FlightsService {
      *
      * @param match a token to be checked against code, name or city of existing departure airports.
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'match' contains one of /, \, (, ), { or }
      */
     public List<Flight.AirportData> getAirportsFromWhereFromDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByFromDescriptionLike(match.toLowerCase())
                 .stream()
                 .map(Flight::getFrom)
@@ -136,8 +158,10 @@ public class FlightsService {
      *
      * @param match a token to be checked against code, name or city of existing departure airports.
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'match' contains one of /, \, (, ), { or }
      */
     public List<Flight.AirportData> getAirportsToWhereToDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByToDescriptionLike(match.toLowerCase())
                 .stream()
                 .map(Flight::getTo)
@@ -161,8 +185,11 @@ public class FlightsService {
      * @param from String representing the code of a departure airport (eg. "AMS")
      * @param toMatch a token to be checked against code, name or city of existing arrival airports.
      * @return List of Flight meeting the match condition
+     * @throws ParameterNotValidException if 'from' or 'toMatch' contain one of /, \, (, ), { or }
      */
     public List<Flight.AirportData> getAirportsToWhereFromAndToDescriptionMatches(String from, String toMatch) {
+        validateParameter("from", from);
+        validateParameter("toMatch", toMatch);
         return repository.findByFromToDescriptionLike(from, toMatch.toLowerCase())
                 .stream()
                 .map(Flight::getTo)
@@ -183,6 +210,7 @@ public class FlightsService {
     }
 
     public List<String> getAirportDescriptionsWhereFromDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByFromDescriptionLike(match.toLowerCase())
                 .stream()
                 .map(Flight::getFrom)
@@ -192,6 +220,7 @@ public class FlightsService {
     }
 
     public List<String> getAirportDescriptionsWhereToDescriptionMatches(String match) {
+        validateParameter("match", match);
         return repository.findByToDescriptionLike(match.toLowerCase())
                 .stream()
                 .map(Flight::getTo)
