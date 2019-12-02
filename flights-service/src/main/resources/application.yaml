@@ -1,0 +1,31 @@
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+spring:
+  data:
+    mongodb:
+      host: "localhost"
+      port: 27017
+      database: "linkitair"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    distribution:
+      sla:
+        http:
+          server:
+            requests: 10ms, 25ms, 50ms, 100ms, 500ms, 1s, 5s
+        mytask:
+          duration: 10ms, 25ms, 50ms, 100ms, 500ms, 1s, 5s
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
