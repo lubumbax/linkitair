@@ -1,5 +1,6 @@
 package com.lubumbax.linkitair.flights.service;
 
+import com.lubumbax.linkitair.flights.error.ParameterNotValidException;
 import com.lubumbax.linkitair.flights.test.matcher.CaseInsensitiveEquals;
 import com.lubumbax.linkitair.flights.model.Airport;
 import com.lubumbax.linkitair.flights.model.Flight;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -61,7 +63,7 @@ public class FlightsServiceTest {
     }
 
     @Test
-    public void getFlightsFromToFound() {
+    public void getFlightsFromTo_Found() {
         List<Flight> results = flightsService.getFlightsFromTo("AMS", "FRA");
 
         Assert.notNull(results, "A list (empty or not) is expected");
@@ -69,11 +71,19 @@ public class FlightsServiceTest {
     }
 
     @Test
-    public void getFlightsFromToNotFound() {
+    public void getFlightsFromTo_NotFound() {
         List<Flight> results = flightsService.getFlightsFromTo("AMS", "MAD");
 
         Assert.notNull(results, "A list (empty or not) is expected");
         assertThat(results, empty());
+    }
+
+    @Test
+    public void getFlightsFromTo_BadCharacters() {
+        ParameterNotValidException ex = assertThrows(
+                ParameterNotValidException.class,
+                () -> flightsService.getFlightsFromTo("AMS)", "FRA")
+        );
     }
 
     @Test
@@ -82,6 +92,14 @@ public class FlightsServiceTest {
 
         Assert.notNull(results, "A list (empty or not) is expected");
         assertThat(results, contains(LK001, LK003, LK004));
+    }
+
+    @Test
+    public void getFlightsWhereFromDescriptionMatches_BadCharacters() {
+        ParameterNotValidException ex = assertThrows(
+                ParameterNotValidException.class,
+                () -> flightsService.getFlightsWhereFromDescriptionMatches("a}m{s")
+        );
     }
 
     @Test
@@ -122,5 +140,13 @@ public class FlightsServiceTest {
 
         Assert.notNull(results, "A list (empty or not) is expected");
         assertThat(results, containsInAnyOrder(buildAirportData(FRA)));
+    }
+
+    @Test
+    public void getAirportsToWhereFromAndToDescriptionMatches_BadCharacters() {
+        ParameterNotValidException ex = assertThrows(
+                ParameterNotValidException.class,
+                () -> flightsService.getAirportsToWhereFromAndToDescriptionMatches("AMS", "m\\a/d")
+        );
     }
 }
