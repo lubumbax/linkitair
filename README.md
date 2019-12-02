@@ -3,6 +3,34 @@
 LinkitAir is a demo PoC of an online flights search application.  
 It consists of an API (Spring Boot) and a UI (Angular). 
 
+### TL;DR
+
+```shell script
+$ mkdir -p ~/.mongodb/data
+$ docker run -d -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
+```
+```shell script
+$ git clone <url of this repository>
+$ cd linkitair
+$ mvn clean install 
+$ cd /flights-service
+$ mvn spring-boot:run
+```
+
+Access LinkitAir at http://localhost:8080 and start searching flights.    
+
+```shell script
+$ cd linkitair
+$ docker run -d -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
+```  
+
+```shell script
+$ docker run -d -p 3000:3000 grafana/grafana
+```
+Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).  
+Once there go to "+ > Import" and import the contents of `dashboard.json`.  
+
+
 ## Overview
 
 ### The API
@@ -19,9 +47,11 @@ The token could be just part of the name of a city, the name of the airport itse
 
 ### The UI
 The UI is a basic Angular application that pulls flights information from the Spring Boot application.  
-It consists of a flights search page in which we can search available flights for a given "From" and "To" airports.  
+It consists on a flights search page in which we can search available flights for a given "From" and "To" airports.  
 The page displays two flight search boxes that will dynamically be populated with the airports matching the characters entered.  
 Once an airport is selected, the search box "locks-in" with a light blue colour indicating that it is "ready" to search.  
+
+The Angular application is running embedded in the Tomcat server of Spring Boot. 
 
 ## How to run it
 
@@ -72,14 +102,19 @@ You can easily install MongoDB in Linux with one of the major distribution packa
 apt install mongodb
 ```
 
-## Serve the API 
+## Serve LinkitAir
 ```shell script
 $ git clone <url of this repository>
-$ cd linkitair/flights-service
-$ mvn clean spring-boot:run
+$ cd linkitair
+$ mvn clean install 
+$ cd /flights-service
+$ mvn spring-boot:run
 ```
 
-### Test it
+That builds it all, runs some tests and stats Spring Boot. 
+Spring Boot is serving both the API and the UI in one.
+
+### Test the API
 To return a list of flights from Amsterdam/Schiphol:
 ```shell script
 $ curl -v -G "http://localhost:8080/flights/from/AMS"
@@ -89,6 +124,12 @@ To return a list of flights from Amsterdam/Schiphol to Frankfurt/Frankfurt am Ma
 ```shell script
 $ curl -v -G "http://localhost:8080/flights/from/AMS/to/FRA"
 ```
+
+### Test the UI
+Browse to http://localhost:8080  
+Try entering just "am" in the "From" search box. Both "AMS" and "FRA" will be found. Select "AMS".  
+Try entering just "fra" in the "To" search box. "FRA" will be found. Select "FRA".  
+Search the available flights.  
 
 ### API Documentation
 Documentation about the endpoints and models is exposed by Swagger at http://localhost:8080/swagger-ui.html  
@@ -118,20 +159,6 @@ $ mongo
 });
 ```
  
-## Run the UI
-```shell script
-$ git clone <url of this repository>
-$ cd linkitair/inkitair-web
-$ npm install
-$ ng serve
-```
-
-### Test it
-Browse to http://localhost:4200  
-Try entering just "am" in the "From" search box. Both "AMS" and "FRA" will be found. Select "AMS".  
-Try entering just "fra" in the "To" search box. "FRA" will be found. Select "FRA".  
-Search the available flights.  
-
 ## Metrics
 On the Spring Boot API, Micrometer gathers metrics that are made available by Actuator under http://localhost:8080/actuator/metrics  
 
@@ -155,6 +182,6 @@ The following steps assume that you have Docker running on your machine.
 ```shell script
 $ docker run -d -p 3000:3000 grafana/grafana
 ```
-Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).    
+Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).  
 Once in, go to "+ > Import" and import the contents of `dashboard.json`.  
 
