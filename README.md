@@ -3,7 +3,44 @@
 LinkitAir is a demo PoC of an online flights search application.  
 It consists of an API (Spring Boot) and a UI (Angular). 
 
+### TL;DR
+
+```shell script
+$ mkdir -p ~/.mongodb/data
+$ docker run -d -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
+```
+```shell script
+$ git clone https://github.com/lubumbax/linkitair.git
+$ cd linkitair/flights-service
+$ mvn clean spring-boot:run
+```
+```shell script
+$ git clone https://github.com/lubumbax/linkitair.git
+$ cd linkitair/inkitair-web
+$ npm install
+$ ng serve
+```
+
+Access LinkitAir at Browse to http://localhost:4200 and start searching flights.    
+
+```shell script
+$ cd linkitair
+$ docker run -d -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
+```  
+
+```shell script
+$ docker run -d -p 3000:3000 grafana/grafana
+```
+Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).  
+Once there go to "+ > Import" and import the contents of `dashboard.json`.  
+
 ## Overview
+
+LikitAir consists on a backend Spring Boot REST API serving data to a frontend Angular 8 UI.  
+These run each in its own process (and port/service).
+
+It is possible to have the UI served by the Spring Boot process.  
+You can check that checking out to the `feature/ui-in-boot` branch in this repository (see doc for that there).  
 
 ### The API
 The API is a Spring Boot application that serves flight information through a Spring MVC REST Controller.    
