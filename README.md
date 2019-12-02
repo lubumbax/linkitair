@@ -16,12 +16,12 @@ $ mvn clean spring-boot:run
 ```
 ```shell script
 $ git clone https://github.com/lubumbax/linkitair.git
-$ cd linkitair/inkitair-web
+$ cd linkitair/linkitair-web
 $ npm install
 $ ng serve
 ```
 
-Access LinkitAir at Browse to http://localhost:4200 and start searching flights.    
+  - Access LinkitAir at Browse to http://localhost:4200 and start searching flights.    
 
 ```shell script
 $ cd linkitair
@@ -31,8 +31,9 @@ $ docker run -d -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/promethe
 ```shell script
 $ docker run -d -p 3000:3000 grafana/grafana
 ```
-Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).  
-Once there go to "+ > Import" and import the contents of `dashboard.json`.  
+  - Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).    
+  - Once in, follow "`Configuration` (left menu) > `Datasources` > `[Add data source]` > `Prometheus`: {`URL = http://host.docker.internal:9090`} > `Save and Test`". 
+  - Once the data source has been created, follow "`Create` (+ on the left menu) > `Import` > (paste the contents of `dashboard.json`) > `[Load]` > `Prometheus`: (select the _Prometheus_ data source) > `[Import]`".  
 
 ## Overview
 
@@ -158,7 +159,7 @@ $ mongo
 ## Run the UI
 ```shell script
 $ git clone <url of this repository>
-$ cd linkitair/inkitair-web
+$ cd linkitair/linkitair-web
 $ npm install
 $ ng serve
 ```
@@ -192,6 +193,7 @@ The following steps assume that you have Docker running on your machine.
 ```shell script
 $ docker run -d -p 3000:3000 grafana/grafana
 ```
-Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).    
-Once in, go to "+ > Import" and import the contents of `dashboard.json`.  
+  - Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).    
+  - Once in, follow "`Configuration` (left menu) > `Datasources` > `[Add data source]` > `Prometheus`: {`URL = http://host.docker.internal:9090`} > `Save and Test`". 
+  - Once the data source has been created, follow "`Create` (+ on the left menu) > `Import` > (paste the contents of `dashboard.json`) > `[Load]` > `Prometheus`: (select the _Prometheus_ data source) > `[Import]`".  
 
