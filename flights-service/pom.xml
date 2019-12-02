@@ -3,25 +3,30 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>flights-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>flights-service</name>
-    <description>LinkitAir Flights Service</description>
-
     <parent>
         <groupId>com.lubumbax.linkitair</groupId>
         <artifactId>linkitair</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <artifactId>flights-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>flights-service</name>
+    <description>LinkitAir Flights Service</description>
+
     <dependencies>
+        <dependency>
+            <groupId>com.lubumbax.linkitair</groupId>
+            <artifactId>linkitair-web</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring Boot / Cloud -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -119,6 +124,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -129,6 +135,30 @@
                         <version>${junit.platform.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals><goal>copy-resources</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory >
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/linkitair-web/dist/linkitair-web/</directory >
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
 
             <plugin>

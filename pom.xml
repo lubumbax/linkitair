@@ -20,6 +20,7 @@
 
     <modules>
         <module>flights-service</module>
+        <module>linkitair-web</module>
     </modules>
 
     <properties>
