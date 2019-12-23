@@ -40,6 +40,16 @@ public class FlightsService {
 
     private FlightsRepository repository;
 
+    public List<Flight> getFlights(List<String> ids) {
+        //return repository.findByNumberIn(ids);
+        return repository.findByIdIn(ids);
+    }
+
+    public List<Flight> getFlightsFrom(List<String> ids) {
+        return repository.findByFromCodeIn(ids);
+        //return repository.findByFromIdIn(ids);
+    }
+
     /**
      * Retrieves all available flights between two airports by their given airport code.
      * The given airport codes have to match fully with those of the existing airports.

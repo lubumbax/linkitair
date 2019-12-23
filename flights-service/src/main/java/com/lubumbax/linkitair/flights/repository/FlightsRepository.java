@@ -19,4 +19,14 @@ public interface FlightsRepository extends MongoRepository<Flight, String> {
 
     @Query("{'from.code': ?0, 'to.description': {$regex: ?1, $options: 'i'}}")
     List<Flight> findByFromToDescriptionLike(String from, String toMatch);
+
+    List<Flight> findByNumberIn(List<String> ids);
+
+    @Query("{'_id': {$in: ?0}}")
+    List<Flight> findByIdIn(List<String> ids);
+
+    List<Flight> findByFromCodeIn(List<String> ids);
+
+    @Query("{'from._id': {$in: ?0}}")
+    List<Flight> findByFromIdIn(List<String> ids);
 }

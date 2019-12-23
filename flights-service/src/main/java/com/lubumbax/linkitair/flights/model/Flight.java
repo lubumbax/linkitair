@@ -34,6 +34,7 @@ public class Flight {
     @ApiModel(description = "Airport data of a given Flight")
     public static class AirportData {
         @ApiModelProperty(value = "Airport code", example = "AMS")
+        @Id
         private String code;
 
         @ApiModelProperty(
