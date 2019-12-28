@@ -2,8 +2,11 @@ package com.lubumbax.linkitair.flights;
 
 import com.lubumbax.linkitair.flights.model.Airport;
 import com.lubumbax.linkitair.flights.model.Flight;
+import com.lubumbax.linkitair.flights.model.Parent;
 import com.lubumbax.linkitair.flights.repository.AirportsRepository;
 import com.lubumbax.linkitair.flights.repository.FlightsRepository;
+import com.lubumbax.linkitair.flights.repository.ParentsRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +29,9 @@ public class FlightsServiceApplication  implements CommandLineRunner {
     private FlightsRepository flightsRepository;
 
     @Autowired
+    private ParentsRepository parentsRepository;
+
+    @Autowired
     private MongoTemplate mongoTemplate;
 
     public static void main(String[] args) {
@@ -37,6 +43,20 @@ public class FlightsServiceApplication  implements CommandLineRunner {
         Airport AMS = Airport.builder().code("AMS").name("Schiphol").city("Amsterdam").build();
         Airport LHR = Airport.builder().code("LHR").name("Heathrow").city("London").build();
         Airport FRA = Airport.builder().code("FRA").name("Frankfurt am Main").city("Frankfurt").build();
+
+        if (! mongoTemplate.collectionExists("parent")) {
+            //parentsRepository.deleteAll();
+            parentsRepository.saveAll(Arrays.asList(
+                    Parent.builder()
+                            .name("parent1")
+                            .child(Parent.Child.builder().id(new ObjectId().toString()).name("child1").key("value1").build())
+                            .build(),
+                    Parent.builder()
+                            .name("parent2")
+                            .child(Parent.Child.builder().id(new ObjectId().toString()).name("child2").key("value2").build())
+                            .build()
+            ));
+        }
 
         if (! mongoTemplate.collectionExists("airports")) {
             airportsRepository.deleteAll();
