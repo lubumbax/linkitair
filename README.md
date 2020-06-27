@@ -7,7 +7,7 @@ It consists on a REST API (Spring Boot) and a UI (Angular).
 
 ```shell script
 $ mkdir -p ~/.mongodb/data
-$ docker run -d -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
+$ docker run -d --name mongo -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
 ```
 ```shell script
 $ git clone https://github.com/lubumbax/linkitair.git
@@ -25,11 +25,11 @@ $ ng serve
 
 ```shell script
 $ cd linkitair
-$ docker run -d -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
+$ docker run -d --name prometheus -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
 ```  
 
 ```shell script
-$ docker run -d -p 3000:3000 grafana/grafana
+$ docker run -d --name grafana -p 3000:3000 grafana/grafana
 ```
   - Access Grafana at http://localhost:3000 (username `admin` and pasword `admmin`).    
   - Once in, follow "`Configuration` (left menu) > `Datasources` > `[Add data source]` > `Prometheus`: {`URL = http://host.docker.internal:9090`} > `Save and Test`". 
@@ -59,7 +59,11 @@ The token could be just part of the name of a city, the name of the airport itse
 The UI is a basic Angular application that pulls flights information from the Spring Boot application.  
 It consists of a flights search page in which we can search available flights for a given "From" and "To" airports.  
 The page displays two flight search boxes that will dynamically be populated with the airports matching the characters entered.  
-Once an airport is selected, the search box "locks-in" with a light blue colour indicating that it is "ready" to search.  
+Once an airport is selected, the search box "locks-in" with a light blue colour indicating that it is "ready" to search.
+
+The Angular application is to be run from the command line with `ng serve`.  
+It is possible to build it and embed it in the Spring Boot application.  
+See the `ui-in-boot` branch to see how to do that.
 
 ## How to run it
 
@@ -72,7 +76,7 @@ Once an airport is selected, the search box "locks-in" with a light blue colour 
 The easiest way to run MongoDB is probably launching it in a Docker container:
 ```shell script
 $ mkdir -p ~/.mongodb/data
-$ docker run -d -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
+$ docker run -d --name mongo -p 27017:27017 -v "${HOME}/.mongodb/data:/data/db" mongo
 ```
 
 You may prefer running MongoDB locally as described in the following section.
@@ -182,8 +186,18 @@ Then we can visualize data from Prometheus in a dashboard with Grafana.
 The following steps assume that you have Docker running on your machine.
 ```shell script
 $ cd linkitair
-$ docker run -d -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
+$ docker run -d --name prometheus -p 9090:9090 -v "$(pwd)/prometheus.yaml:/etc/prometheus/prometheus.yml" prom/prometheus
 ```  
+
+*Note*: for some versions of Docker (or the driver used) the _volume binding_ (`-v`) feature doesn't work.   
+As a workaround, we can create our own prometheus image:
+```shell script
+docker build -t lubumbax/prometheus -f - . << __EOF
+FROM prom/prometheus
+COPY prometheus.yaml /etc/prometheus/prometheus.yml
+__EOF
+docker run -d --name prometheus -p 9090:9090 lubumbax/prometheus
+``` 
 
 Once it is running, go to http://localhost:9090/targets and check that Prometheus lists the label `linkitair_micrometer`.  
 That confirms that Prometheus is now pulling data from our Spring Boot application.
