@@ -2,10 +2,10 @@ package com.lubumbax.linkitair.flights.controller;
 
 import com.lubumbax.linkitair.flights.model.Flight;
 import com.lubumbax.linkitair.flights.service.FlightsService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,13 @@ public class FlightsController {
     @Autowired
     private FlightsService flightsService;
 
-    @ApiOperation(value = "Retrieve flights from one airport to another")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned list of flights found")})
+    @Operation(summary = "Retrieve flights from one airport to another")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returned list of flights found")})
     @GetMapping("/from/{from}/to/{to}")
     public List<Flight> findFrom(
-            @ApiParam(value="Airport of departure, by its airport code", example = "AMS")
+            @Parameter(description="Airport of departure, by its airport code", example = "AMS")
             @PathVariable String from,
-            @ApiParam(value="Airport of arrival, by its airport code", example = "LHR")
+            @Parameter(description="Airport of arrival, by its airport code", example = "LHR")
             @PathVariable String to
     ) {
         return flightsService.getFlightsFromTo(from, to);
@@ -42,8 +42,8 @@ public class FlightsController {
         return flightsService.getFlightsWhereToDescriptionMatches(airportCode);
     }
 
-    @ApiOperation(value = "Retrieve departure airports matching the departure airport of existing flights")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned list of airports found")})
+    @Operation(summary = "Retrieve departure airports matching the departure airport of existing flights")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returned list of airports found")})
     @GetMapping("/airports/from/{fromMatch}")
     public List<Flight.AirportData> findAirportsFrom(
             @PathVariable String fromMatch
@@ -51,8 +51,8 @@ public class FlightsController {
         return flightsService.getAirportsFromWhereFromDescriptionMatches(fromMatch);
     }
 
-    @ApiOperation(value = "Retrieve arrival airports matching the departure and arrival airport of existing flights")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned list of airports found")})
+    @Operation(summary = "Retrieve arrival airports matching the departure and arrival airport of existing flights")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returned list of airports found")})
     @GetMapping("/airports/from/{from}/to/{toMatch}")
     public List<Flight.AirportData> findAirportsTo(
             @PathVariable String from,

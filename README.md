@@ -21,7 +21,8 @@ $ npm install
 $ ng serve
 ```
 
-  - Access LinkitAir at http://localhost:4200 and start searching flights.  
+  - Access LinkitAir at http://localhost:4200 and start searching flights.
+  - Access Swagger UI at http://localhost:8080/swagger-ui.html
 
 ```shell script
 $ cd linkitair
@@ -70,7 +71,7 @@ See the `ui-in-boot` branch to see how to do that.
 ### Requirements
 
   - MongoDB  
-  - Java 11
+  - Java 17
 
 ### Run MongoDB
 The easiest way to run MongoDB is probably launching it in a Docker container:

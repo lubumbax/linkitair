@@ -1,7 +1,6 @@
 package com.lubumbax.linkitair.flights.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -11,19 +10,19 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-@ApiModel
+@Schema
 @Document(collection = "airports")
 public class Airport {
-    @ApiModelProperty(value = "Code of the airport")
+    @Schema(description = "Code of the airport")
     @Id
     private String code;
 
-    @ApiModelProperty(value = "Name of the airport")
+    @Schema(description = "Name of the airport")
     private String name;
 
-    @ApiModelProperty(value = "City of the airport")
+    @Schema(description = "City of the airport")
     private String city;
 
-    @ApiModelProperty(value = "Altitude of the airport in meters")
+    @Schema(description = "Altitude of the airport in meters")
     private BigDecimal altitude;
 }

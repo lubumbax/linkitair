@@ -1,7 +1,6 @@
 package com.lubumbax.linkitair.flights.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -11,34 +10,33 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-@ApiModel
+@Schema
 @Document(collection = "flights")
 public class Flight {
-    @ApiModelProperty(value = "Flight number")
+    @Schema(description = "Flight number")
     @Id
     private String number;
 
-    @ApiModelProperty(value = "From airport")
+    @Schema(description = "From airport")
     private Flight.AirportData from;
 
-    @ApiModelProperty(value = "To airport")
+    @Schema(description = "To airport")
     private Flight.AirportData to;
 
-    @ApiModelProperty(value = "Departure time, local time of the departure city")
+    @Schema(description = "Departure time, local time of the departure city")
     private String time;
 
-    @ApiModelProperty(value = "Price")
+    @Schema(description = "Price")
     private BigDecimal price;
 
     @Data
-    @ApiModel(description = "Airport data of a given Flight")
+    @Schema(description = "Airport data of a given Flight")
     public static class AirportData {
-        @ApiModelProperty(value = "Airport code", example = "AMS")
+        @Schema(description = "Airport code", example = "AMS")
         private String code;
 
-        @ApiModelProperty(
-                value = "Airport description label",
-                notes = "Combination of the airport code, name and city",
+        @Schema(
+                description = "Combination of the airport code, name and city",
                 example = "AMS - Schiphol (Amsterdam)"
         )
         private String description;

@@ -29,3 +29,5 @@ management:
           autotime:
             enabled: true
 
+springdoc:
+  show-actuator: true
