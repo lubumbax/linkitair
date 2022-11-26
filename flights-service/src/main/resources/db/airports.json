@@ -1,0 +1,22 @@
+[
+  {
+    "code": "AMS",
+    "name": "Schiphol",
+    "city": "Amsterdam"
+  },
+  {
+    "code": "LHR",
+    "name": "Heathrow",
+    "city": "London"
+  },
+  {
+    "code": "FRA",
+    "name": "Frankfurt am Main",
+    "city": "Frankfurt"
+  },
+  {
+    "code": "MAD",
+    "name": "Barajas",
+    "city": "Madrid"
+  }
+]

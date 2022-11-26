@@ -1,0 +1,42 @@
+[
+  {
+    "number": "LK001",
+    "airline": "LinkitAir",
+    "from": { "code": "AMS", "description": "AMS - Schiphol (Amsterdam)" },
+    "to":   { "code": "LHR", "description": "LHR - Heathrow (London)" },
+    "time": "09:55",
+    "price": "123.0"
+  },
+  {
+    "number": "LK002",
+    "airline": "LinkitAir",
+    "from": { "code": "LHR", "description": "LHR - Heathrow (London)" },
+    "to":   { "code": "AMS", "description": "AMS - Schiphol (Amsterdam)" },
+    "time": "13:15",
+    "price": "321.0"
+  },
+  {
+    "number": "LK003",
+    "airline": "LinkitAir",
+    "from": { "code": "AMS", "description": "AMS - Schiphol (Amsterdam)" },
+    "to":   { "code": "FRA", "description": "FRA - Frankfurt am Main (Frankfurt)" },
+    "time": "10:45",
+    "price": "456.0"
+  },
+  {
+    "number": "LK004",
+    "airline": "LinkitAir",
+    "from": { "code": "FRA", "description": "FRA - Frankfurt am Main (Frankfurt)" },
+    "to":   { "code": "LHR", "description": "LHR - Heathrow (London)" },
+    "time": "14:35",
+    "price": "654"
+  },
+  {
+    "number": "LK005",
+    "airline": "LinkitAir",
+    "from": { "code": "AMS", "description": "AMS - Schiphol (Amsterdam)" },
+    "to":   { "code": "MAD", "description": "MAD - Barajas (Madrid)" },
+    "time": "11:05",
+    "price": "350.0"
+  }
+]

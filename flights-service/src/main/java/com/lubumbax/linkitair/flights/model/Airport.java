@@ -1,17 +1,21 @@
 package com.lubumbax.linkitair.flights.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
+@Document(collection = "airports")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema
-@Document(collection = "airports")
 public class Airport {
     @Schema(description = "Code of the airport")
     @Id
