@@ -2,6 +2,7 @@ package com.lubumbax.linkitair.flights.init;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lubumbax.linkitair.flights.config.LinkitAirProperties;
 import com.lubumbax.linkitair.flights.model.Airport;
 import com.lubumbax.linkitair.flights.model.Flight;
 import com.lubumbax.linkitair.flights.repository.AirportsRepository;
@@ -29,25 +30,32 @@ public class ImportData implements ApplicationListener<ApplicationReadyEvent> {
     private FlightsRepository flightsRepository;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private LinkitAirProperties properties;
 
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        boolean updating = properties.getInitialData().isUpdating();
+        boolean deleteFirst = properties.getInitialData().isDeleteFirst();
+
         log.info("Importing airports");
-        importAirports(true);
+        importAirports(updating, deleteFirst);
 
         log.info("Importing flights");
-        importFlights(true);
+        importFlights(updating, deleteFirst);
     }
 
-    private void importFlights(boolean updating) {
+    private void importFlights(boolean updating, boolean deleteFirst) {
         ObjectMapper mapper = new ObjectMapper();
         InputStream is = TypeReference.class.getResourceAsStream("/db/flights.json");
         TypeReference<List<Flight>> typeReference = new TypeReference<List<Flight>>(){};
         AtomicInteger count = new AtomicInteger();
         try {
             List<Flight> jsonList = mapper.readValue(is, typeReference);
+            if (deleteFirst) {
+                log.info("Deleting all existing flights");
+                flightsRepository.deleteAll();
+            }
             jsonList.forEach(f -> {
-                if (updating || flightsRepository.findById(f.getNumber()).isEmpty()) {
+                if (deleteFirst || updating || flightsRepository.findById(f.getNumber()).isEmpty()) {
                     flightsRepository.save(f);
                     count.getAndIncrement();
                 }
@@ -58,15 +66,19 @@ public class ImportData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
-    private void importAirports(boolean updating) {
+    private void importAirports(boolean updating, boolean deleteFirst) {
         ObjectMapper mapper = new ObjectMapper();
         InputStream is = TypeReference.class.getResourceAsStream("/db/airports.json");
         TypeReference<List<Airport>> typeReference = new TypeReference<List<Airport>>(){};
         AtomicInteger count = new AtomicInteger();
         try {
             List<Airport> jsonList = mapper.readValue(is, typeReference);
+            if (deleteFirst) {
+                log.info("Deleting all existing airports");
+                flightsRepository.deleteAll();
+            }
             jsonList.forEach(a -> {
-                if (updating || airportsRepository.findById(a.getCode()).isEmpty()) {
+                if (deleteFirst || updating || airportsRepository.findById(a.getCode()).isEmpty()) {
                     airportsRepository.save(a);
                     count.getAndIncrement();
                 }

@@ -32,8 +32,8 @@
     "price": "654"
   },
   {
-    "number": "LK005",
-    "airline": "LinkitAir",
+    "number": "IB00",
+    "airline": "Iberia",
     "from": { "code": "AMS", "description": "AMS - Schiphol (Amsterdam)" },
     "to":   { "code": "MAD", "description": "MAD - Barajas (Madrid)" },
     "time": "11:05",
