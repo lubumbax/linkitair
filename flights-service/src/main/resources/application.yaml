@@ -4,11 +4,18 @@ server:
       enabled: true
 
 spring:
+  profiles:
+    active: dev
+  application:
+    name: "flights-service"
   data:
     mongodb:
       host: "localhost"
       port: 27017
       database: "linkitair"
+
+springdoc:
+  show-actuator: true
 
 management:
   endpoints:
@@ -16,18 +23,26 @@ management:
       exposure:
         include: '*'
   metrics:
+    tags:
+      application: "linkitair"
+      service: ${spring.application.name}
     distribution:
-      sla:
-        http:
-          server:
-            requests: 10ms, 25ms, 50ms, 100ms, 500ms, 1s, 5s
-        mytask:
-          duration: 10ms, 25ms, 50ms, 100ms, 500ms, 1s, 5s
+      percentiles[http.server.requests]: 0.5, 0.7, 0.95, 0.99
+      percentiles-histogram[http.server.requests]: true
+      slo[http.server.requests]: 10ms, 100ms, 500ms
     web:
       server:
         request:
           autotime:
             enabled: true
 
-springdoc:
-  show-actuator: true
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
